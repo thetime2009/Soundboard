@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แอพเสียงแสนสนุกของหนูๆ</title>
+    <style>
+        body { font-family: 'Tahoma', sans-serif; text-align: center; background-color: #f0f8ff; }
+        .container { display: grid; grid-template-columns: repeat(4, 1-fr); gap: 15px; padding: 20px; max-width: 600px; margin: auto; }
+        .btn { 
+            aspect-ratio: 1/1; border: none; border-radius: 20px; 
+            font-size: 18px; font-weight: bold; color: white; cursor: pointer;
+            box-shadow: 0 5px #999; transition: 0.1s;
+        }
+        .btn:active { box-shadow: 0 2px #666; transform: translateY(4px); }
+        
+        /* แบ่งสีตามหมวดหมู่ */
+        .animal { background-color: #FF6347; }   /* สีแดง - สัตว์ */
+        .activity { background-color: #4CAF50; } /* สีเขียว - กิจกรรม */
+        .fruit { background-color: #FFD700; }    /* สีเหลือง - ผลไม้ */
+        .family { background-color: #1E90FF; }   /* สีฟ้า - ญาติ */
+        .extra { background-color: #9370DB; }    /* สีม่วง - อื่นๆ */
+    </style>
+</head>
+<body>
+
+    <h1>กดเพื่อฟังเสียงนะจ๊ะ! 🔊</h1>
+
+    <div class="container" id="button-container">
+        <!-- ปุ่มจะถูกสร้างขึ้นด้วย JavaScript ตรงนี้ -->
+    </div>
+
+    <script>
+        const categories = [
+            { name: "สัตว์", color: "animal", icons: ["🐶", "🐱", "🦁", "🐘"] },
+            { name: "กิจกรรม", color: "activity", icons: ["🏃", "😴", "🛁", "🍽️"] },
+            { name: "ผลไม้", color: "fruit", icons: ["🍎", "🍌", "🍇", "🍉"] },
+            { name: "ญาติ", color: "family", icons: ["👨", "👩", "👴", "👵"] },
+            { name: "พิเศษ", color: "extra", icons: ["⭐", "🎈", "🚗", "🌈"] }
+        ];
+
+        const container = document.getElementById('button-container');
+
+        // สร้างปุ่มทั้งหมด 20 ปุ่ม
+        categories.forEach(cat => {
+            cat.icons.forEach((icon, index) => {
+                const btn = document.createElement('button');
+                btn.className = `btn ${cat.color}`;
+                btn.innerHTML = `${icon}<br><small>${cat.name}${index + 1}</small>`;
+                
+                // ฟังก์ชันเมื่อกดปุ่ม
+                btn.onclick = () => {
+                    playAudio(cat.name, index + 1);
+                };
+                
+                container.appendChild(btn);
+            });
+        });
+
+        function playAudio(category, num) {
+            // ในอนาคตคุณสามารถเปลี่ยนเป็นชื่อไฟล์เสียงจริงๆ เช่น 'animal1.mp3'
+            console.log(`กำลังเล่นเสียง: ${category} ลำดับที่ ${num}`);
+            alert(`น้องๆ กำลังฟังเสียง: ${category} ชุดที่ ${num}`);
+        }
+    </script>
+</body>
+</html>
