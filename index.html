@@ -3,65 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แอพเสียงแสนสนุกของหนูๆ</title>
+    <title>แอพเสียงแสนสนุก 20 ปุ่ม</title>
     <style>
-        body { font-family: 'Tahoma', sans-serif; text-align: center; background-color: #f0f8ff; }
-        .container { display: grid; grid-template-columns: repeat(4, 1-fr); gap: 15px; padding: 20px; max-width: 600px; margin: auto; }
-        .btn { 
-            aspect-ratio: 1/1; border: none; border-radius: 20px; 
-            font-size: 18px; font-weight: bold; color: white; cursor: pointer;
-            box-shadow: 0 5px #999; transition: 0.1s;
+        body { 
+            font-family: 'Tahoma', sans-serif; 
+            text-align: center; 
+            background-color: #FFF9E3; /* สีพื้นหลังอ่อนๆ สบายตา */
+            margin: 0;
+            padding: 20px;
         }
-        .btn:active { box-shadow: 0 2px #666; transform: translateY(4px); }
         
-        /* แบ่งสีตามหมวดหมู่ */
-        .animal { background-color: #FF6347; }   /* สีแดง - สัตว์ */
-        .activity { background-color: #4CAF50; } /* สีเขียว - กิจกรรม */
-        .fruit { background-color: #FFD700; }    /* สีเหลือง - ผลไม้ */
-        .family { background-color: #1E90FF; }   /* สีฟ้า - ญาติ */
-        .extra { background-color: #9370DB; }    /* สีม่วง - อื่นๆ */
+        h1 { color: #FF6F61; margin-bottom: 20px; }
+
+        .container { 
+            display: grid; 
+            /* กำหนดให้มี 4 คอลัมน์ เท่าๆ กัน */
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            max-width: 500px; 
+            margin: 0 auto; 
+        }
+
+        .btn { 
+            aspect-ratio: 1/1; /* ทำให้ปุ่มเป็นสี่เหลี่ยมจัตุรัส */
+            border: none; 
+            border-radius: 25px; 
+            font-size: 30px; /* ขนาด Emoji ใหญ่ขึ้น */
+            cursor: pointer;
+            box-shadow: 0 6px #ccc; 
+            transition: all 0.1s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* เอฟเฟกต์ตอนกดปุ่ม */
+        .btn:active { 
+            box-shadow: 0 2px #666; 
+            transform: translateY(4px); 
+        }
+
+        /* สีแบ่งตามหมวดหมู่ */
+        .animal { background-color: #FFB7B2; }   /* สีชมพูอ่อน */
+        .activity { background-color: #B2E2F2; } /* สีฟ้าอ่อน */
+        .fruit { background-color: #FFDAC1; }    /* สีส้มอ่อน */
+        .family { background-color: #E2F0CB; }   /* สีเขียวอ่อน */
+        .extra { background-color: #D9BBF9; }    /* สีม่วงอ่อน */
+
+        .label { 
+            font-size: 14px; 
+            margin-top: 5px; 
+            color: #333;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <h1>กดเพื่อฟังเสียงนะจ๊ะ! 🔊</h1>
+    <h1>กดฟังเสียงกันเถอะ! 🎈</h1>
 
-    <div class="container" id="button-container">
-        <!-- ปุ่มจะถูกสร้างขึ้นด้วย JavaScript ตรงนี้ -->
+    <div class="container" id="app-grid">
+        <!-- ปุ่มจะถูกสร้างขึ้นมา 20 ปุ่ม (4x5) -->
     </div>
 
     <script>
-        const categories = [
-            { name: "สัตว์", color: "animal", icons: ["🐶", "🐱", "🦁", "🐘"] },
-            { name: "กิจกรรม", color: "activity", icons: ["🏃", "😴", "🛁", "🍽️"] },
-            { name: "ผลไม้", color: "fruit", icons: ["🍎", "🍌", "🍇", "🍉"] },
-            { name: "ญาติ", color: "family", icons: ["👨", "👩", "👴", "👵"] },
-            { name: "พิเศษ", color: "extra", icons: ["⭐", "🎈", "🚗", "🌈"] }
+        const data = [
+            { cat: "สัตว์", color: "animal", icons: ["🐶", "🐱", "🦁", "🐘"] },
+            { cat: "กิจกรรม", color: "activity", icons: ["🏃", "😴", "🛁", "🍽️"] },
+            { cat: "ผลไม้", color: "fruit", icons: ["🍎", "🍌", "🍇", "🍉"] },
+            { cat: "ญาติ", color: "family", icons: ["👨", "👩", "👴", "👵"] },
+            { cat: "อื่นๆ", color: "extra", icons: ["🚗", "🏠", "🎁", "🔔"] }
         ];
 
-        const container = document.getElementById('button-container');
+        const grid = document.getElementById('app-grid');
 
-        // สร้างปุ่มทั้งหมด 20 ปุ่ม
-        categories.forEach(cat => {
-            cat.icons.forEach((icon, index) => {
+        // วนลูปสร้างปุ่มตามหมวดหมู่
+        data.forEach(item => {
+            item.icons.forEach(icon => {
                 const btn = document.createElement('button');
-                btn.className = `btn ${cat.color}`;
-                btn.innerHTML = `${icon}<br><small>${cat.name}${index + 1}</small>`;
+                btn.className = `btn ${item.color}`;
+                btn.innerHTML = `
+                    <span>${icon}</span>
+                    <div class="label">${item.cat}</div>
+                `;
                 
-                // ฟังก์ชันเมื่อกดปุ่ม
                 btn.onclick = () => {
-                    playAudio(cat.name, index + 1);
+                    console.log(`กดหมวด: ${item.cat}`);
+                    // ใส่ฟังก์ชันเล่นเสียงตรงนี้
                 };
                 
-                container.appendChild(btn);
+                grid.appendChild(btn);
             });
         });
-
-        function playAudio(category, num) {
-            // ในอนาคตคุณสามารถเปลี่ยนเป็นชื่อไฟล์เสียงจริงๆ เช่น 'animal1.mp3'
-            console.log(`กำลังเล่นเสียง: ${category} ลำดับที่ ${num}`);
-            alert(`น้องๆ กำลังฟังเสียง: ${category} ชุดที่ ${num}`);
-        }
     </script>
 </body>
 </html>
