@@ -3,99 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แอพเสียงแสนสนุก 20 ปุ่ม</title>
+    <title>Kids Soundboard App</title>
     <style>
         body { 
             font-family: 'Tahoma', sans-serif; 
             text-align: center; 
-            background-color: #FFF9E3; /* สีพื้นหลังอ่อนๆ สบายตา */
-            margin: 0;
-            padding: 20px;
+            background-color: #FFF9E3; 
+            margin: 0; padding: 20px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        
-        h1 { color: #FF6F61; margin-bottom: 20px; }
-
+        h1 { color: #FF6F61; font-size: 24px; }
         .container { 
             display: grid; 
-            /* กำหนดให้มี 4 คอลัมน์ เท่าๆ กัน */
             grid-template-columns: repeat(4, 1fr); 
-            gap: 15px; 
+            gap: 12px; 
             max-width: 500px; 
             margin: 0 auto; 
         }
-
         .btn { 
-            aspect-ratio: 1/1; /* ทำให้ปุ่มเป็นสี่เหลี่ยมจัตุรัส */
-            border: none; 
-            border-radius: 25px; 
-            font-size: 30px; /* ขนาด Emoji ใหญ่ขึ้น */
-            cursor: pointer;
-            box-shadow: 0 6px #ccc; 
-            transition: all 0.1s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            aspect-ratio: 1/1; border: none; border-radius: 20px; 
+            font-size: 32px; cursor: pointer;
+            box-shadow: 0 6px #bbb; transition: 0.1s;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
         }
+        .btn:active { box-shadow: 0 2px #666; transform: translateY(4px); }
+        
+        /* สีแยกตามหมวดหมู่ */
+        .animal { background-color: #FFB7B2; }
+        .activity { background-color: #B2E2F2; }
+        .fruit { background-color: #FFDAC1; }
+        .family { background-color: #E2F0CB; }
+        .extra { background-color: #D9BBF9; }
 
-        /* เอฟเฟกต์ตอนกดปุ่ม */
-        .btn:active { 
-            box-shadow: 0 2px #666; 
-            transform: translateY(4px); 
-        }
-
-        /* สีแบ่งตามหมวดหมู่ */
-        .animal { background-color: #FFB7B2; }   /* สีชมพูอ่อน */
-        .activity { background-color: #B2E2F2; } /* สีฟ้าอ่อน */
-        .fruit { background-color: #FFDAC1; }    /* สีส้มอ่อน */
-        .family { background-color: #E2F0CB; }   /* สีเขียวอ่อน */
-        .extra { background-color: #D9BBF9; }    /* สีม่วงอ่อน */
-
-        .label { 
-            font-size: 14px; 
-            margin-top: 5px; 
-            color: #333;
-            font-weight: bold;
-        }
+        .label { font-size: 12px; margin-top: 5px; color: #333; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>กดฟังเสียงกันเถอะ! 🎈</h1>
-
-    <div class="container" id="app-grid">
-        <!-- ปุ่มจะถูกสร้างขึ้นมา 20 ปุ่ม (4x5) -->
-    </div>
+    <h1>กดเพื่อฟังเสียงนะจ๊ะ! 🎈</h1>
+    <div class="container" id="app-grid"></div>
 
     <script>
-        const data = [
-            { cat: "สัตว์", color: "animal", icons: ["🐶", "🐱", "🦁", "🐘"] },
-            { cat: "กิจกรรม", color: "activity", icons: ["🏃", "😴", "🛁", "🍽️"] },
-            { cat: "ผลไม้", color: "fruit", icons: ["🍎", "🍌", "🍇", "🍉"] },
-            { cat: "ญาติ", color: "family", icons: ["👨", "👩", "👴", "👵"] },
-            { cat: "อื่นๆ", color: "extra", icons: ["🚗", "🏠", "🎁", "🔔"] }
+        const appData = [
+            { cat: "สัตว์", color: "animal", items: [
+                { icon: "🐔", name: "ไก่", id: "chicken" },
+                { icon: "🐶", name: "หมา", id: "dog" },
+                { icon: "🐦", name: "นก", id: "bird" },
+                { icon: "🐱", name: "แมว", id: "cat" }
+            ]},
+            { cat: "กิจกรรม", color: "activity", items: [
+                { icon: "🏃", name: "วิ่ง", id: "run" },
+                { icon: "😴", name: "นอน", id: "sleep" },
+                { icon: "🛁", name: "อาบน้ำ", id: "bath" },
+                { icon: "🍽️", name: "กินข้าว", id: "eat" }
+            ]},
+            { cat: "ผลไม้", color: "fruit", items: [
+                { icon: "🍎", name: "แอปเปิ้ล", id: "apple" },
+                { icon: "🍌", name: "กล้วย", id: "banana" },
+                { icon: "🍇", name: "องุ่น", id: "grape" },
+                { icon: "🍉", name: "แตงโม", id: "watermelon" }
+            ]},
+            { cat: "ญาติ", color: "family", items: [
+                { icon: "👨", name: "คุณพ่อ", id: "dad" },
+                { icon: "👩", name: "คุณแม่", id: "mom" },
+                { icon: "👴", name: "คุณปู่", id: "grandpa" },
+                { icon: "👵", name: "คุณย่า", id: "grandma" }
+            ]},
+            { cat: "อื่นๆ", color: "extra", items: [
+                { icon: "🚗", name: "รถยนต์", id: "car" },
+                { icon: "🏠", name: "บ้าน", id: "home" },
+                { icon: "🎁", name: "ของขวัญ", id: "gift" },
+                { icon: "🔔", name: "กระดิ่ง", id: "bell" }
+            ]}
         ];
 
         const grid = document.getElementById('app-grid');
 
-        // วนลูปสร้างปุ่มตามหมวดหมู่
-        data.forEach(item => {
-            item.icons.forEach(icon => {
+        appData.forEach(group => {
+            group.items.forEach(item => {
                 const btn = document.createElement('button');
-                btn.className = `btn ${item.color}`;
-                btn.innerHTML = `
-                    <span>${icon}</span>
-                    <div class="label">${item.cat}</div>
-                `;
+                btn.className = `btn ${group.color}`;
+                btn.innerHTML = `<span>${item.icon}</span><div class="label">${item.name}</div>`;
                 
                 btn.onclick = () => {
-                    console.log(`กดหมวด: ${item.cat}`);
-                    // ใส่ฟังก์ชันเล่นเสียงตรงนี้
+                    // เล่นไฟล์เสียง: name_id.mp3 ก่อน แล้วตามด้วย sound_id.mp3
+                    playTwoSounds(`sounds/name_${item.id}.mp3`, `sounds/sound_${item.id}.mp3`);
                 };
-                
                 grid.appendChild(btn);
             });
         });
+
+        function playTwoSounds(firstPath, secondPath) {
+            const firstAudio = new Audio(firstPath);
+            const secondAudio = new Audio(secondPath);
+
+            firstAudio.play().then(() => {
+                firstAudio.onended = () => secondAudio.play();
+            }).catch(() => {
+                // ถ้าไม่มีไฟล์ชื่อ ให้เล่นไฟล์เสียงหลักเลย
+                secondAudio.play().catch(e => console.log("ยังไม่มีไฟล์เสียง"));
+            });
+        }
     </script>
 </body>
 </html>
